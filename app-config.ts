@@ -33,9 +33,9 @@ export interface AppConfig {
 }
 
 export const APP_CONFIG_DEFAULTS: AppConfig = {
-  companyName: 'LiveKit',
-  pageTitle: 'LiveKit Voice Agent',
-  pageDescription: 'A voice agent built with LiveKit',
+  companyName: 'Agent Zero',
+  pageTitle: 'Agent Zero - Shona AI Assistant',
+  pageDescription: 'A voice-first agentic AI assistant built with LiveKit',
 
   supportsChatInput: true,
   supportsVideoInput: true,
