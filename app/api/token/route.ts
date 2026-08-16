@@ -9,24 +9,32 @@ type ConnectionDetails = {
   participantToken: string;
 };
 
-// NOTE: you are expected to define the following environment variables in `.env.local`:
-const API_KEY = process.env.LIVEKIT_API_KEY;
-const API_SECRET = process.env.LIVEKIT_API_SECRET;
-const LIVEKIT_URL = process.env.LIVEKIT_URL;
-
-// don't cache the results
-export const revalidate = 0;
-
 export async function POST(req: Request) {
+  const apiKey = process.env.LIVEKIT_API_KEY;
+  const apiSecret = process.env.LIVEKIT_API_SECRET;
+  const livekitUrl = process.env.LIVEKIT_URL;
+
   try {
-    if (LIVEKIT_URL === undefined) {
-      throw new Error('LIVEKIT_URL is not defined');
+    if (!livekitUrl) {
+      console.error('LIVEKIT_URL environment variable is missing.');
+      return NextResponse.json(
+        { error: 'LIVEKIT_URL environment variable is not defined on server' },
+        { status: 500 }
+      );
     }
-    if (API_KEY === undefined) {
-      throw new Error('LIVEKIT_API_KEY is not defined');
+    if (!apiKey) {
+      console.error('LIVEKIT_API_KEY environment variable is missing.');
+      return NextResponse.json(
+        { error: 'LIVEKIT_API_KEY environment variable is not defined on server' },
+        { status: 500 }
+      );
     }
-    if (API_SECRET === undefined) {
-      throw new Error('LIVEKIT_API_SECRET is not defined');
+    if (!apiSecret) {
+      console.error('LIVEKIT_API_SECRET environment variable is missing.');
+      return NextResponse.json(
+        { error: 'LIVEKIT_API_SECRET environment variable is not defined on server' },
+        { status: 500 }
+      );
     }
 
     // Parse room config from request body.
@@ -41,6 +49,8 @@ export async function POST(req: Request) {
     const roomName = `voice_assistant_room_${Math.floor(Math.random() * 10_000)}`;
 
     const participantToken = await createParticipantToken(
+      apiKey,
+      apiSecret,
       { identity: participantIdentity, name: participantName },
       roomName,
       roomConfig
@@ -48,7 +58,7 @@ export async function POST(req: Request) {
 
     // Return connection details
     const data: ConnectionDetails = {
-      serverUrl: LIVEKIT_URL,
+      serverUrl: livekitUrl,
       roomName,
       participantName,
       participantToken,
@@ -59,18 +69,21 @@ export async function POST(req: Request) {
     return NextResponse.json(data, { headers });
   } catch (error) {
     if (error instanceof Error) {
-      console.error(error);
-      return new NextResponse(error.message, { status: 500 });
+      console.error('Error generating LiveKit token:', error);
+      return NextResponse.json({ error: error.message }, { status: 500 });
     }
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 
 function createParticipantToken(
+  apiKey: string,
+  apiSecret: string,
   userInfo: AccessTokenOptions,
   roomName: string,
   roomConfig: RoomConfiguration | undefined
 ): Promise<string> {
-  const at = new AccessToken(API_KEY, API_SECRET, {
+  const at = new AccessToken(apiKey, apiSecret, {
     ...userInfo,
     ttl: '15m',
   });
