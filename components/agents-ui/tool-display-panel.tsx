@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { AnimatePresence, motion } from 'motion/react';
-import { useToolDisplay, type ToolDisplayItem } from '@/hooks/use-tool-display';
+import { type ToolDisplayItem, useToolDisplay } from '@/hooks/use-tool-display';
 
 /* ─── Icons (inline SVG to avoid extra deps) ─── */
 
@@ -111,7 +111,7 @@ function ResultsView({ title, items }: { title?: string; items: ToolDisplayItem[
     <div className="flex flex-col gap-3">
       {title && (
         <h3
-          className="text-xs font-semibold uppercase tracking-widest"
+          className="text-xs font-semibold tracking-widest uppercase"
           style={{ color: 'oklch(0.7 0.1 195)' }}
         >
           {title}
@@ -147,20 +147,12 @@ function ResultsView({ title, items }: { title?: string; items: ToolDisplayItem[
 
 /* ─── Media View ─── */
 
-function MediaView({
-  title,
-  mediaType,
-  url,
-}: {
-  title?: string;
-  mediaType?: string;
-  url: string;
-}) {
+function MediaView({ title, mediaType, url }: { title?: string; mediaType?: string; url: string }) {
   return (
     <div className="flex flex-col gap-3">
       {title && (
         <h3
-          className="text-xs font-semibold uppercase tracking-widest"
+          className="text-xs font-semibold tracking-widest uppercase"
           style={{ color: 'oklch(0.7 0.1 195)' }}
         >
           {title}
@@ -193,7 +185,7 @@ function WebpageView({ title, url, content }: { title?: string; url?: string; co
       <div className="flex items-center justify-between gap-2">
         {title && (
           <h3
-            className="text-xs font-semibold uppercase tracking-widest"
+            className="text-xs font-semibold tracking-widest uppercase"
             style={{ color: 'oklch(0.7 0.1 195)' }}
           >
             {title}
@@ -211,7 +203,7 @@ function WebpageView({ title, url, content }: { title?: string; url?: string; co
         )}
       </div>
       <div className="max-h-64 overflow-y-auto rounded-lg border border-white/5 bg-white/[0.02] p-4">
-        <p className="whitespace-pre-wrap text-xs leading-relaxed text-white/70">{content}</p>
+        <p className="text-xs leading-relaxed whitespace-pre-wrap text-white/70">{content}</p>
       </div>
     </div>
   );
@@ -235,7 +227,7 @@ export function ToolDisplayPanel() {
             'absolute z-40',
             isFullscreen
               ? 'inset-4 md:inset-8'
-              : 'right-3 top-4 w-[360px] max-w-[calc(100vw-24px)] md:right-6 md:top-6 md:w-[420px]',
+              : 'top-4 right-3 w-[360px] max-w-[calc(100vw-24px)] md:top-6 md:right-6 md:w-[420px]',
           ].join(' ')}
         >
           {/* Jarvis glass panel */}
@@ -245,8 +237,7 @@ export function ToolDisplayPanel() {
               background:
                 'linear-gradient(135deg, oklch(0.15 0.02 230 / 0.85), oklch(0.12 0.015 210 / 0.9))',
               borderColor: 'oklch(0.5 0.12 195 / 0.2)',
-              boxShadow:
-                '0 0 40px oklch(0.6 0.15 195 / 0.08), inset 0 1px 0 oklch(1 0 0 / 0.05)',
+              boxShadow: '0 0 40px oklch(0.6 0.15 195 / 0.08), inset 0 1px 0 oklch(1 0 0 / 0.05)',
               backdropFilter: 'blur(24px) saturate(1.5)',
               WebkitBackdropFilter: 'blur(24px) saturate(1.5)',
             }}
@@ -268,12 +259,10 @@ export function ToolDisplayPanel() {
                   className="h-1.5 w-1.5 rounded-full"
                   style={{ background: 'oklch(0.75 0.15 195)' }}
                   animate={isLoading ? { opacity: [0.4, 1, 0.4] } : { opacity: 1 }}
-                  transition={
-                    isLoading ? { duration: 1, repeat: Infinity, ease: 'easeInOut' } : {}
-                  }
+                  transition={isLoading ? { duration: 1, repeat: Infinity, ease: 'easeInOut' } : {}}
                 />
                 <span
-                  className="text-[10px] font-bold uppercase tracking-[0.2em]"
+                  className="text-[10px] font-bold tracking-[0.2em] uppercase"
                   style={{ color: 'oklch(0.65 0.08 195)' }}
                 >
                   {isLoading ? 'Processing' : 'Display'}

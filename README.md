@@ -35,12 +35,14 @@ agent-zero/
 ## Getting Started
 
 1. **Install dependencies**:
+
    ```bash
    pnpm install
    ```
 
 2. **Configure environment variables**:
    Create a `.env.local` file in the root directory:
+
    ```env
    LIVEKIT_API_KEY=your_livekit_api_key
    LIVEKIT_API_SECRET=your_livekit_api_secret
@@ -48,6 +50,7 @@ agent-zero/
    ```
 
 3. **Start the development server**:
+
    ```bash
    pnpm dev
    ```
@@ -66,4 +69,3 @@ export const APP_CONFIG_DEFAULTS: AppConfig = {
   // ...
 };
 ```
-

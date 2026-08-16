@@ -1,8 +1,8 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
-import { useSessionContext } from '@livekit/components-react';
 import { RoomEvent } from 'livekit-client';
+import { useSessionContext } from '@livekit/components-react';
 
 /**
  * Display message types sent from the agent via the 'tool-display' data channel.
@@ -66,7 +66,7 @@ export function useToolDisplay(): ToolDisplayState {
       payload: Uint8Array,
       _participant: unknown,
       _kind: unknown,
-      topic?: string,
+      topic?: string
     ) => {
       if (topic !== TOPIC) return;
 

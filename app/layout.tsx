@@ -47,7 +47,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
   const hdrs = await headers();
   const appConfig = await getAppConfig(hdrs);
   const styles = getStyles(appConfig);
-  const { pageTitle, pageDescription, companyName, logo, logoDark } = appConfig;
+  const { pageTitle, pageDescription } = appConfig;
 
   return (
     <html
@@ -72,7 +72,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
           disableTransitionOnChange
         >
           <header className="fixed top-0 left-0 z-50 hidden w-full flex-row justify-between p-6 md:flex">
-            <div className="flex items-center gap-2 font-bold tracking-tight text-lg">
+            <div className="flex items-center gap-2 text-lg font-bold tracking-tight">
               <span className="text-primary font-mono font-extrabold uppercase">Agent Zero</span>
             </div>
             <span className="text-foreground font-mono text-xs font-bold tracking-wider uppercase">
