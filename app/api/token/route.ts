@@ -38,7 +38,7 @@ export async function POST(req: Request) {
     }
 
     // Parse request body safely
-    let body: any = {};
+    let body: Record<string, unknown> = {};
     try {
       const text = await req.text();
       if (text && text.trim().length > 0) {
