@@ -51,7 +51,10 @@ export async function POST(req: Request) {
     let roomConfig: RoomConfiguration | undefined = undefined;
     if (body && body.room_config) {
       try {
-        roomConfig = RoomConfiguration.fromJson(body.room_config, { ignoreUnknownFields: true });
+        roomConfig = RoomConfiguration.fromJson(
+          body.room_config as Parameters<typeof RoomConfiguration.fromJson>[0],
+          { ignoreUnknownFields: true }
+        );
       } catch (err) {
         console.warn('Failed to parse room_config from request body:', err);
       }
