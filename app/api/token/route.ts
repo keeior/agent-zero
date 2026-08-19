@@ -37,11 +37,25 @@ export async function POST(req: Request) {
       );
     }
 
-    // Parse room config from request body.
-    const body = await req.json();
-    const roomConfig = body?.room_config
-      ? RoomConfiguration.fromJson(body.room_config, { ignoreUnknownFields: true })
-      : new RoomConfiguration();
+    // Parse request body safely
+    let body: any = {};
+    try {
+      const text = await req.text();
+      if (text && text.trim().length > 0) {
+        body = JSON.parse(text);
+      }
+    } catch (e) {
+      console.warn('Could not parse request JSON body in /api/token:', e);
+    }
+
+    let roomConfig: RoomConfiguration | undefined = undefined;
+    if (body && body.room_config) {
+      try {
+        roomConfig = RoomConfiguration.fromJson(body.room_config, { ignoreUnknownFields: true });
+      } catch (err) {
+        console.warn('Failed to parse room_config from request body:', err);
+      }
+    }
 
     // Generate participant token
     const participantName = 'user';
